@@ -1,7 +1,6 @@
 package blackfriday
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 	"testing"
@@ -18,7 +17,7 @@ func launchAstTest(input []byte) []*ElementStringified {
 	return renderer.GetTree()
 }
 
-func TestGannersSiteTest(t *testing.T) {
+func TestHeaderParagraph(t *testing.T) {
 
 	input := []byte(strings.Join([]string{
 		"# Header 1",
@@ -34,11 +33,9 @@ func TestGannersSiteTest(t *testing.T) {
 		},
 		{
 			Name:     "paragraph",
-			Rendered: "<p>Some paragraph of text which spans across multiple lines</p>\n",
+			Rendered: "<p>Some paragraph of text which spans across\nmultiple lines</p>\n",
 		},
 	}
-	fmt.Println(*output[0])
-	fmt.Println(*output[1])
 
 	if !reflect.DeepEqual(output, fixture) {
 		t.Errorf("Output of header did not match fixture")
