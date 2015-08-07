@@ -1,12 +1,13 @@
 package blackfriday
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 	"testing"
 )
 
-func launchAstTest(input []byte) []*Element {
+func launchAstTest(input []byte) []*ElementStringified {
 
 	renderer := ASTRenderer(HtmlRenderer(commonHtmlFlags, "", ""))
 	MarkdownOptions(
@@ -14,7 +15,7 @@ func launchAstTest(input []byte) []*Element {
 		renderer,
 		Options{Extensions: commonExtensions})
 
-	return renderer.Tree
+	return renderer.GetTree()
 }
 
 func TestGannersSiteTest(t *testing.T) {
@@ -26,12 +27,18 @@ func TestGannersSiteTest(t *testing.T) {
 
 	output := launchAstTest(input)
 
-	fixture := []*Element{
+	fixture := []*ElementStringified{
 		{
 			Name:     "h1",
 			Rendered: "<h1>Header 1</h1>\n",
 		},
+		{
+			Name:     "paragraph",
+			Rendered: "<p>Some paragraph of text which spans across multiple lines</p>\n",
+		},
 	}
+	fmt.Println(*output[0])
+	fmt.Println(*output[1])
 
 	if !reflect.DeepEqual(output, fixture) {
 		t.Errorf("Output of header did not match fixture")
